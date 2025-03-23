@@ -1,0 +1,32 @@
+{% extends "emails/base.html" %} {% block title %}Your Transaction Export is
+Ready{% endblock %} {% block content %}
+<h2>Transaction Export Ready</h2>
+
+<p>Hello {{ user_name }},</p>
+
+<p>Your requested transaction export is ready and attached to this email.</p>
+
+<div class="info-box">
+  <p>
+    <strong>Export Details:</strong>
+    <br />
+    Format: {{ export_format }}
+    <br />
+    Date Range: {{ date_range }}
+  </p>
+</div>
+
+<p>
+  The file contains all your transactions and interwallet transfers for the
+  selected period, along with summary information.
+</p>
+
+<div class="divider"></div>
+
+<p>If you did not request this export, please contact us immediately.</p>
+
+<p>
+  Best regards,<br />
+  The Expense Tracker Team
+</p>
+{% endblock %}

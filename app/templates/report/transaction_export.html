@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .summary {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+            text-align: left;
+            padding: 8px;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        .credit {
+            color: #28a745;
+        }
+        .debit {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Transaction Report</h1>
+        <p>For {{ user.name }} ({{ user.email }})</p>
+        <p>Period: {{ start_date }} to {{ end_date }}</p>
+    </div>
+    
+    <div class="summary">
+        <h2>Summary</h2>
+        <div class="summary-row">
+            <span>Total Credit:</span>
+            <span class="credit">Rs. {{ total_credit }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Total Debit:</span>
+            <span class="debit">Rs. {{ total_debit }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Total Transactions:</span>
+            <span>{{ transactions|length }}</span>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Transactions</h2>
+        {% if transactions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Wallet</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.transaction_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ transaction.type.value }}</td>
+                    <td>{{ transaction.category.name }}</td>
+                    <td>{{ transaction.wallet.name }}</td>
+                    <td {% if transaction.type.value == "CREDIT" %}class="credit"{% else %}class="debit"{% endif %}>
+                        Rs. {{ transaction.amount }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No transactions found in this period.</p>
+        {% endif %}
+    </div>
+    
+    <div class="section">
+        <h2>Interwallet Transfers</h2>
+        {% if interwallet_transactions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>From Wallet</th>
+                    <th>To Wallet</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transfer in interwallet_transactions %}
+                <tr>
+                    <td>{{ transfer.transaction_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ transfer.source_wallet.name }}</td>
+                    <td>{{ transfer.destination_wallet.name }}</td>
+                    <td>Rs. {{ transfer.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No wallet transfers found in this period.</p>
+        {% endif %}
+    </div>
+    
+    <div class="footer">
+        <p>Generated on {{ generation_date }}</p>
+        <p>Expense Tracker | © {{ generation_date[:4] }} All Rights Reserved</p>
+    </div>
+</body>
+</html>

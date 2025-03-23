@@ -1,0 +1,46 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Local environment files
+.env
+.venv
+env/
+venv/
+ENV/
+flask/
+
+# Logs
+logs/
+*.log
+
+# Database
+dump.rdb
+*.db
+*.sqlite3
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Migration specific
+migrations/__pycache__/
+
+# Personal notes
+notes.txt
+TODO.md
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+structure.txt

@@ -42,5 +42,6 @@ TODO.md
 .pytest_cache/
 .coverage
 htmlcov/
+tests
 
 structure.txt

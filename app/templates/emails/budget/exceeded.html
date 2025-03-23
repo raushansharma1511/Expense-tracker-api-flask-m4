@@ -1,0 +1,27 @@
+{% extends "emails/base.html" %} {% block title %}Budget Exceeded{% endblock %}
+{% block content %}
+<h2>Budget Exceeded!</h2>
+
+<p>
+  Your budget for <strong>{{ category_name }}</strong> for
+  <strong>{{ month_name }} {{ year }}</strong> has been
+  <strong>exceeded</strong>.
+</p>
+
+<div class="info-box">
+  <p>Please review your spending and make adjustments as needed.</p>
+</div>
+
+<ul>
+  <li>Budget Amount: Rs {{ budget_amount }}</li>
+  <li>Spent Amount: Rs {{ spent_amount }}</li>
+  <li>Overspent by: Rs {{ overspent }}</li>
+</ul>
+
+<div class="divider"></div>
+
+<p>
+  Best regards,<br />
+  The Expense Tracker Team
+</p>
+{% endblock %}

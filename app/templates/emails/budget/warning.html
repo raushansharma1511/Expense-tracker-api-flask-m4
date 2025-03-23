@@ -1,0 +1,29 @@
+{% extends "emails/base.html" %} {% block title %}Budget Warning{% endblock %}
+{% block content %}
+<h2>Budget Warning</h2>
+
+<p>
+  Your budget for <strong>{{ category_name }}</strong> for
+  <strong>{{ month_name }} {{ year }}</strong> is now at
+  <strong>{{ percentage }}%</strong> of the limit.
+</p>
+
+<div class="info-box">
+  <p>
+    Please review your spending in this category to avoid exceeding your budget.
+  </p>
+</div>
+
+<ul>
+  <li>Budget Amount: Rs {{ budget_amount }}</li>
+  <li>Spent Amount: Rs {{ spent_amount }}</li>
+  <li>Remaining: Rs {{ remaining }}</li>
+</ul>
+
+<div class="divider"></div>
+
+<p>
+  Best regards,<br />
+  The Expense Tracker Team
+</p>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "emails/base.html" %} {% block title %}Verify Your Email{% endblock
+%} {% block content %}
+<h2>Welcome to Expense Tracker!</h2>
+
+<p>
+  Thank you for registering with our Expense Tracker application. We're excited
+  to have you on board!
+</p>
+
+<div class="info-box">
+  <p>
+    Please verify your email address to activate your account and start tracking
+    your finances.
+  </p>
+</div>
+
+<p style="text-align: center">
+  <a href="{{ verification_url }}" class="button">Verify My Email</a>
+</p>
+
+<div class="divider"></div>
+
+<p>
+  If the button doesn't work, you can also copy and paste this URL into your
+  browser:
+</p>
+
+<p
+  style="
+    word-break: break-all;
+    font-size: 13px;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+  "
+>
+  <a href="{{ verification_url }}">{{ verification_url }}</a>
+</p>
+
+<p>
+  <strong>Note:</strong> This link will expire in {{ expiry_minutes }} minutes.
+</p>
+
+<div class="divider"></div>
+
+<p>
+  Best regards,<br />
+  The Expense Tracker Team
+</p>
+{% endblock %}

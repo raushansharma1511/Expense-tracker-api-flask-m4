@@ -1,0 +1,32 @@
+{% extends "emails/base.html" %} {% block title %}Recurring Transaction
+Processed{% endblock %} {% block content %}
+<h2>Recurring Transaction Processed</h2>
+
+<p>Your recurring transaction has been successfully processed.</p>
+
+<div class="info-box">
+  <p>Here are the details of the transaction that was created:</p>
+</div>
+
+<ul>
+  <li><strong>Type:</strong> {{ transaction_type }}</li>
+  <li><strong>Amount:</strong> {{ amount }}</li>
+  <li><strong>Category:</strong> {{ category_name }}</li>
+  <li><strong>Wallet:</strong> {{ wallet_name }}</li>
+  <li><strong>Description:</strong> {{ description }}</li>
+  <li><strong>Date:</strong> {{ transaction_date }}</li>
+  <li><strong>Frequency:</strong> {{ frequency }}</li>
+  <li><strong>Next Execution:</strong> {{ next_execution }}</li>
+</ul>
+
+<div class="divider"></div>
+
+<p>You can view this transaction in your account.</p>
+
+<div class="divider"></div>
+
+<p>
+  Best regards,<br />
+  The Expense Tracker Team
+</p>
+{% endblock %}

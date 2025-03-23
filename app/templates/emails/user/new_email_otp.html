@@ -1,0 +1,32 @@
+{% extends "emails/base.html" %} {% block title %}Verify Your New Email
+Address{% endblock %} {% block content %}
+<h2>Verify Your New Email Address</h2>
+
+<p>
+  You've requested to use this email address for your Expense Tracker account.
+</p>
+
+<div class="info-box">
+  <p>
+    To complete this change, you'll need to enter verification codes from both
+    your current and new email addresses.
+  </p>
+</div>
+
+<p>Your verification code for your <strong>new email</strong> is:</p>
+
+<div style="text-align: center">
+  <div class="code">{{ otp }}</div>
+</div>
+
+<p>This code will expire in <strong>{{ expiry_minutes }} minutes</strong>.</p>
+
+<div class="divider"></div>
+
+<p>If you didn't request this change, you can safely ignore this email.</p>
+
+<p>
+  Best regards,<br />
+  The Expense Tracker Team
+</p>
+{% endblock %}

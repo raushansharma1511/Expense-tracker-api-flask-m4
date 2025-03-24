@@ -2,6 +2,10 @@ from celery import Celery
 import os
 from celery.schedules import crontab
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 def make_celery(app=None):
     """
@@ -23,10 +27,10 @@ def make_celery(app=None):
 
     # Use Redis URL from environment if available
     celery.conf.broker_url = (
-        app.config.get("CELERY_BROKER_URL") if app else "redis://localhost:6379/0"
+        app.config.get("CELERY_BROKER_URL") if app else os.getenv("REDIS_URL")
     )
     celery.conf.result_backend = (
-        app.config.get("CELERY_RESULT_BACKEND") if app else "redis://localhost:6379/0"
+        app.config.get("CELERY_RESULT_BACKEND") if app else os.getenv("REDIS_URL")
     )
 
     # Configure Celery
@@ -49,11 +53,13 @@ def make_celery(app=None):
             "task": "process_recurring_transactions",
             "schedule": crontab(minute="*/5"),
         },
-    }
-    celery.conf.beat_schedule = {
         "hard-delete-soft-deleted-items-daily": {
             "task": "hard_delete_soft_deleted_items",
             "schedule": crontab(hour=0, minute=0),  # Runs daily at midnight UTC
+        },
+        "cleanup-expired-access-tokens": {
+            "task": "cleanup_expired_access_tokens",
+            "schedule": crontab(hour=0, minute=0),
         },
     }
 

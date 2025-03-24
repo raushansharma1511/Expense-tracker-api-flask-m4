@@ -1,6 +1,8 @@
+from flask import current_app
 from celery import Celery
 from datetime import datetime, timedelta, timezone
 from app import create_app, db
+from app.models.auth import ActiveAccessToken
 from app.models.user import User
 from app.models.wallet import Wallet
 from app.models.transaction import Transaction
@@ -8,6 +10,7 @@ from app.models.budget import Budget
 from app.models.category import Category
 from app.models.recurring_transaction import RecurringTransaction
 from app.models.interwallet_transaction import InterWalletTransaction
+
 
 from app.celery_app import celery
 from app.utils.logger import logger
@@ -55,3 +58,24 @@ def hard_delete_soft_deleted_items(self):
         if self.request.retries < self.max_retries:
             self.retry(exc=e, countdown=60 * (self.request.retries + 1))
         return False
+
+
+@celery.task(name="cleanup_expired_access_tokens")
+def cleanup_expired_tokens():
+    """Delete access tokens older than JWT_ACCESS_TOKEN_EXPIRES minutes."""
+    expiration_threshold = datetime.now(timezone.utc) - timedelta(
+        seconds=current_app.config["JWT_ACCESS_TOKEN_EXPIRES"]
+    )
+    expired_tokens = ActiveAccessToken.query.filter(
+        ActiveAccessToken.created_at < expiration_threshold
+    ).all()
+
+    if expired_tokens:
+        for token in expired_tokens:
+            db.session.delete(token)
+        db.session.commit()
+        logger.info(f"Deleted {len(expired_tokens)} expired access tokens.")
+    else:
+        logger.info("No expired access tokens found.")
+
+    return "Expired access token cleanup task completed."

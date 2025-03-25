@@ -7,18 +7,8 @@ from app import create_app
 
 def create_default_categories():
     """
-    Create default predefined categories
+    Create default predefined categories that don’t already exist in the database.
     """
-
-    # Check if predefined categories already exist
-    existing_predefined = Category.query.filter_by(
-        is_predefined=True, is_deleted=False
-    ).count()
-    if existing_predefined > 0:
-        logger.info(f"Predefined categories already exist: {existing_predefined} found")
-        print(f"Predefined categories already exist: {existing_predefined} found")
-        return 0
-
     # Find admin user to associate categories with
     admin_user = User.query.filter_by(role=UserRole.ADMIN, is_deleted=False).first()
     if not admin_user:
@@ -41,9 +31,27 @@ def create_default_categories():
         "Miscellaneous",
     ]
 
-    # Create each category
+    # Check existing predefined categories
+    existing_categories = Category.query.filter_by(
+        is_predefined=True, is_deleted=False
+    ).all()
+    existing_names = {
+        cat.name.lower() for cat in existing_categories
+    }  # Case-insensitive comparison
+
+    # Filter out categories that already exist
+    categories_to_create = [
+        name for name in default_categories if name.lower() not in existing_names
+    ]
+
+    if not categories_to_create:
+        logger.info("All predefined categories already exist in the database.")
+        print("All predefined categories already exist in the database.")
+        return 0
+
+    # Create missing categories
     categories_created = 0
-    for category_name in default_categories:
+    for category_name in categories_to_create:
         category = Category(
             name=category_name,
             user_id=admin_user.id,
@@ -54,9 +62,9 @@ def create_default_categories():
 
     db.session.commit()
 
-    logger.info(f"Created {categories_created} predefined categories")
-    print(f"\nCreated {categories_created} predefined categories:")
-    for category_name in default_categories:
+    logger.info(f"Created {categories_created} new predefined categories")
+    print(f"\nCreated {categories_created} new predefined categories:")
+    for category_name in categories_to_create:
         print(f"- {category_name}")
     print()
 

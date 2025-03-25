@@ -15,7 +15,6 @@ from app.utils.constants import (
     AMOUNT_MIN_VALUE as min_val,
     AMOUNT_MAX_VALUE as max_val,
 )
-from app.utils.validators import validate_enum
 
 
 class RecurringTransactionSchema(ma.SQLAlchemyAutoSchema):

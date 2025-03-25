@@ -44,22 +44,6 @@ def handle_error(app):
         logger.info(f"Unauthorized access: {str(error)}")
         return {"error": "Unauthorized, Authentication required"}, 401
 
-    # Handle Redis connection errors
-    @app.errorhandler(redis.RedisError)
-    def handle_redis_error(e):
-        logger.error(f"Redis error: {str(e)}", exc_info=True)
-
-        # In production, don't expose specific Redis errors to clients
-        if current_app.config.get("FLASK_ENV") == "production":
-            response = {
-                "error": "A temporary server issue occurred. Please try again later."
-            }
-        else:
-            # In development, include more details
-            response = {"error": "Redis connection error", "details": str(e)}
-
-        return jsonify(response), 503
-
     @app.errorhandler(Exception)
     def handle_generic_exception(error):
         """Handle all other unhandled exceptions"""

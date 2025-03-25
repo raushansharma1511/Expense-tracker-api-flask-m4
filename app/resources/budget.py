@@ -55,6 +55,7 @@ class BudgetListResource(Resource):
                 schema=budgets_schema,
                 endpoint="budget.budgets",
             )
+            logger.info(f"Returned budget list to user {user.id}")
             return result, 200
 
         except ValidationError as err:

@@ -43,7 +43,6 @@ class SignupResource(Resource):
 
             return {
                 "message": f"User registration request accepted. Please check your email to verify your account.",
-                "token": token,
             }, 200
 
         except ValidationError as err:

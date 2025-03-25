@@ -294,7 +294,6 @@ class ChildUserResource(Resource):
 
             return {
                 "message": f"Child user registration initiated. Please check your email to verify the account.",
-                "token": token,
             }, 200
 
         except ValidationError as err:

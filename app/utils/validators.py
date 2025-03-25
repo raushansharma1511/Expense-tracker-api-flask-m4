@@ -63,17 +63,6 @@ def validate_password(value):
     return value
 
 
-def validate_enum(enum_class):
-    def validator(value):
-        valid_values = [e.value for e in enum_class]  # Get list of allowed values
-        if value not in valid_values:
-            raise ValidationError(
-                f"Invalid value '{value}'. Allowed values: {valid_values}"
-            )
-
-    return validator
-
-
 def is_valid_uuid(value):
     try:
         uuid_obj = uuid.UUID(value)

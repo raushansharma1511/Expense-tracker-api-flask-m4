@@ -185,7 +185,6 @@ class BudgetUpdateSchema(ma.SQLAlchemyAutoSchema):
             )
 
         logger.debug("Category validation passed")
-        return value
 
 
 # Create schema instances

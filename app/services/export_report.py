@@ -3,6 +3,8 @@ from marshmallow import ValidationError
 
 from app.services.report import parse_and_validate_dates
 from app.utils.enums import UserRole
+from app.models.transaction import Transaction
+from app.models.interwallet_transaction import InterWalletTransaction
 from app.tasks.report import generate_and_send_export
 from app.models.user import User
 from app.utils.validators import is_valid_uuid
@@ -64,6 +66,21 @@ def export_transactions(current_user, query_params=None):
 
     else:
         target_user = current_user
+
+    is_transaction_exists = (
+        target_user.transactions.filter(
+            Transaction.transaction_at.between(start_date, end_date),
+            Transaction.is_deleted.is_(False),
+        ).first()
+        is not None
+        or target_user.interwallet_transactions.filter(
+            InterWalletTransaction.transaction_at.between(start_date, end_date),
+            InterWalletTransaction.is_deleted.is_(False),
+        ).first()
+        is not None
+    )
+    if not is_transaction_exists:
+        raise ValidationError("No transactions found for the specified date range")
 
     # Schedule task to generate and send export
     generate_and_send_export.delay(

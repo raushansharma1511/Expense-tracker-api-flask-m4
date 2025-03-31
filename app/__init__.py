@@ -19,6 +19,8 @@ def create_app(test_config=None):
     else:
         app.config.from_object(Config)  # Load configuration from config.py
 
+    app.config["PROPAGATE_EXCEPTIONS"] = True
+
     # Initialize Flask extensions
     db.init_app(app)  # Initialize SQLAlchemy
     migrate.init_app(app, db)  # Initialize Flask-Migrate
@@ -27,7 +29,7 @@ def create_app(test_config=None):
     jwt.init_app(app)  # Initialize JWT authentication
 
     # Register JWT error handlers
-    register_jwt_error_handlers(jwt)
+    register_jwt_error_handlers(app)
 
     # Register Blueprints (URLs)
     register_blueprints(app)

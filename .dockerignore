@@ -1,0 +1,10 @@
+docker-compose3.yml
+docker-compose.yml
+
+.git
+.gitignore
+
+tests/
+htmlcov/
+.pytest_cache/
+

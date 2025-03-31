@@ -14,6 +14,7 @@ class Category(BaseModel):
         db.UUID(as_uuid=True),
         db.ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
+        index=True,
     )
     is_predefined = db.Column(db.Boolean, default=False)
 

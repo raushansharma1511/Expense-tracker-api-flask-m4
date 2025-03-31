@@ -19,6 +19,7 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Required for Flask-SQLAlchemy
     FLASK_ENV = os.getenv("FLASK_ENV")
+    FLASK_DEBUG = os.getenv("FLASK_DEBUG")
     MAIL_SERVER = os.getenv("MAIL_SERVER")
     MAIL_PORT = int(os.getenv("MAIL_PORT"))
     MAIL_USE_TLS = os.getenv("MAIL_USE_TLS", "True") == "True"

@@ -28,16 +28,19 @@ class RecurringTransaction(BaseModel):
         db.UUID(as_uuid=True),
         db.ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
+        index=True,
     )
     wallet_id = db.Column(
         db.UUID(as_uuid=True),
         db.ForeignKey("wallets.id", ondelete="CASCADE"),
         nullable=False,
+        index=True,
     )
     category_id = db.Column(
         db.UUID(as_uuid=True),
         db.ForeignKey("categories.id", ondelete="CASCADE"),
         nullable=False,
+        index=True,
     )
 
     # Relationships

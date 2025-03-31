@@ -11,6 +11,7 @@ from app.tasks.auth import send_verification_email, send_password_reset_email
 from app.models.user import ParentChildRelation
 from app.models.wallet import Wallet
 from app.utils.constants import DEFAULT_WALLET_NAME
+from app.utils.enums import UserRole
 from app.extensions import db, bcrypt, redis_client
 
 
@@ -35,7 +36,7 @@ def create_user(user_data):
     db.session.add(new_user)
     db.session.flush()  # Get ID assigned
 
-    if new_user.role != "ADMIN":
+    if new_user.role != UserRole.ADMIN:
         default_wallet = Wallet(name=DEFAULT_WALLET_NAME, user_id=new_user.id)
         db.session.add(default_wallet)
 

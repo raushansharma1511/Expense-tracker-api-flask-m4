@@ -19,11 +19,13 @@ class Budget(BaseModel):
         db.UUID(as_uuid=True),
         db.ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
+        index=True,
     )
     category_id = db.Column(
         db.UUID(as_uuid=True),
         db.ForeignKey("categories.id", ondelete="CASCADE"),
         nullable=False,
+        index=True,
     )
     warning_notification_sent = db.Column(db.Boolean, nullable=False, default=False)
     exceeded_notification_sent = db.Column(db.Boolean, nullable=False, default=False)

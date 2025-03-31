@@ -1,8 +1,9 @@
 from flask import jsonify
 from app.utils.logger import logger
+from app.extensions import jwt
 
 
-def register_jwt_error_handlers(jwt):
+def register_jwt_error_handlers(app):
     """
     Register error handlers for JWT authentication.
 

@@ -9,6 +9,7 @@ from app.resources.auth import (
     PasswordResetRequestResource,
     PasswordResetConfirmResource,
 )
+from app.resources.health_check import HealthCheckResource
 
 
 auth_bp = Blueprint("auth", __name__)
@@ -32,3 +33,4 @@ auth_api.add_resource(
     "/reset-password-confirm/<token>",
     endpoint="reset-password-confirm",
 )
+auth_api.add_resource(HealthCheckResource, "/health-check", endpoint="health-check")

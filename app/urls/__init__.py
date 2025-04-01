@@ -8,6 +8,7 @@ from app.urls.wallet import wallet_bp
 from app.urls.interwallet_transaction import interwallet_transaction_bp
 from app.urls.budget import budget_bp
 from app.urls.recurring_transaction import recurring_transaction_bp
+from app.resources.health_check import health_bp
 
 
 def register_blueprints(app):
@@ -26,3 +27,4 @@ def register_blueprints(app):
     )
     app.register_blueprint(budget_bp, url_prefix="/api/budgets")
     app.register_blueprint(report_bp, url_prefix="/api")
+    app.register_blueprint(health_bp, url_prefix="/api")

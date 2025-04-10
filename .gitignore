@@ -5,12 +5,9 @@ __pycache__/
 *.so
 
 # Local environment files
-.env
+.env*
 .venv
-env/
-venv/
-ENV/
-flask/
+
 
 # Logs
 logs/

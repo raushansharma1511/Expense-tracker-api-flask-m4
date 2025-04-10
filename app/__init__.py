@@ -1,6 +1,8 @@
 import uuid
 from flask import Flask, request
 from marshmallow.exceptions import ValidationError
+from flask_cors import CORS
+
 
 from app.config import Config  # Import configuration settings
 from app.extensions import db, migrate, bcrypt, jwt, mail, init_limiter, limiter
@@ -20,6 +22,8 @@ def create_app(test_config=None):
         app.config.from_object(Config)  # Load configuration from config.py
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
+
+    CORS(app, resources={r"/*": {"origins": "*"}})  # Or restrict origins as needed
 
     # Initialize Flask extensions
     db.init_app(app)  # Initialize SQLAlchemy
